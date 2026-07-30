@@ -1,1 +1,38 @@
 @import "tailwindcss";
+
+@theme {
+  --color-background-start: #eef1fb;
+  --color-background-end: #f7f8fd;
+  --color-primary: #3b82f6;
+  --color-primary-dark: #2563eb;
+  --color-status-pending: #f59e0b;
+  --color-status-resolved: #16a34a;
+  --color-status-pending-bg: #fef3c7;
+  --color-status-resolved-bg: #dcfce7;
+  --color-error: #dc2626;
+  --radius-xl2: 1.25rem;
+  --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+html, body, #root {
+  min-height: 100vh;
+}
+
+body {
+  background: linear-gradient(135deg, var(--color-background-start), var(--color-background-end));
+}
+
+@keyframes user-menu-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-user-menu-enter {
+  animation: user-menu-enter 150ms ease-out forwards;
+}
