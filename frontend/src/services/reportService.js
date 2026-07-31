@@ -15,11 +15,6 @@ export async function getPublicReports(params) {
   return data
 }
 
-export async function getAdminDashboardStats() {
-  const { data } = await api.get('/api/admin/dashboard/stats')
-  return data
-}
-
 export async function getAdminReports(params, { signal } = {}) {
   const { data } = await api.get('/api/admin/reports', { params, signal })
   return data

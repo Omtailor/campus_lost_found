@@ -95,10 +95,10 @@ const ReportTableRow = memo(function ReportTableRow({ report, onResolve }) {
         {/* Reported By */}
         <td className="px-3 py-3">
           <p className="text-sm text-gray-800 font-medium">
-            {report.student?.name || 'Unknown'}
+            {report.reporter_name || 'Unknown'}
           </p>
           <p className="text-xs text-gray-400">
-            {report.student?.roll_no || '—'}
+            {report.reporter_roll_no ? `— ${report.reporter_roll_no}` : ''}
           </p>
         </td>
 

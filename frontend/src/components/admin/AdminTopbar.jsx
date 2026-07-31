@@ -13,7 +13,7 @@ function AdminTopbar() {
   }
 
   return (
-    <header className="fixed top-0 left-[260px] right-0 h-16 bg-white/60 backdrop-blur-md border-b border-white/40 shadow-glass z-20 flex items-center justify-between px-8">
+    <header className="fixed top-0 left-0 right-0 h-16 bg-white/60 backdrop-blur-md border-b border-white/40 shadow-glass z-20 flex items-center justify-between px-8">
       <div className="relative w-80">
         <FiSearch
           size={16}

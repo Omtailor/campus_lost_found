@@ -1,24 +1,12 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { FiFileText, FiClock, FiCheckCircle, FiUsers } from 'react-icons/fi'
 import AdminLayout from '../../components/admin/AdminLayout.jsx'
-import StatsCard from '../../components/admin/StatsCard.jsx'
 import FilterTabs from '../../components/admin/FilterTabs.jsx'
 import ReportsTable from '../../components/admin/ReportsTable.jsx'
 import Toast from '../../components/admin/Toast.jsx'
-import GlassCard from '../../components/ui/GlassCard.jsx'
-import Button from '../../components/ui/Button.jsx'
 import SectionHeader from '../../components/student/SectionHeader.jsx'
-import useAdminDashboardStats from '../../hooks/useAdminDashboardStats.js'
 import useAdminReports from '../../hooks/useAdminReports.js'
 import { resolveReport } from '../../services/reportService.js'
-
-const STAT_CARDS = [
-  { key: 'totalReports', title: 'Total Reports', icon: FiFileText },
-  { key: 'pendingReports', title: 'Pending Reports', icon: FiClock },
-  { key: 'resolvedThisWeek', title: 'Resolved This Week', icon: FiCheckCircle },
-  { key: 'totalStudents', title: 'Total Students', icon: FiUsers },
-]
 
 const LIMIT_OPTIONS = [10, 20, 50, 100]
 
@@ -41,8 +29,6 @@ function AdminDashboard() {
   const limit = parseInt(searchParams.get('limit'), 10) || 20
   const urlSearch = searchParams.get('search') || ''
   const [searchInput, setSearchInput] = useState(urlSearch)
-
-  const { stats, loading: statsLoading, error: statsError, refresh: refreshStats } = useAdminDashboardStats()
 
   const reportParams = useMemo(() => {
     const params = { limit, offset: (page - 1) * limit }
@@ -126,7 +112,6 @@ function AdminDashboard() {
 
     try {
       await resolveReport(reportId)
-      refreshStats()
       showToast('success', 'Report resolved successfully.')
     } catch (err) {
       setOptimisticResolvedIds((prev) => {
@@ -137,7 +122,7 @@ function AdminDashboard() {
       const message = err.response?.data?.message || err.response?.data?.error || 'Failed to resolve report.'
       showToast('error', message)
     }
-  }, [refreshStats])
+  }, [])
 
   const totalPages = Math.max(1, Math.ceil(total / limit))
 
@@ -145,27 +130,6 @@ function AdminDashboard() {
     <AdminLayout>
       <section>
         <SectionHeader title="Dashboard" />
-
-        {statsError ? (
-          <GlassCard className="flex flex-col items-center justify-center gap-3 p-8 rounded-xl2 mb-6">
-            <p className="text-sm text-gray-500">{statsError}</p>
-            <Button variant="outline" onClick={refreshStats}>
-              Retry
-            </Button>
-          </GlassCard>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-            {STAT_CARDS.map((card) => (
-              <StatsCard
-                key={card.key}
-                title={card.title}
-                value={stats[card.key]}
-                icon={card.icon}
-                loading={statsLoading}
-              />
-            ))}
-          </div>
-        )}
 
         <div className="flex flex-wrap items-center gap-4 mb-6">
           <FilterTabs activeTab={activeTab} onTabChange={handleTabChange} />
