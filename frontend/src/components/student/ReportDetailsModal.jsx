@@ -43,7 +43,7 @@ function getRelativeTime(dateStr) {
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 }
 
-function ReportDetailsModal({ report, isOpen, onClose }) {
+function ReportDetailsModal({ report, isOpen, onClose, showReportedBy = true }) {
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [copied, setCopied] = useState(false)
   const modalRef = useRef(null)
@@ -177,14 +177,16 @@ function ReportDetailsModal({ report, isOpen, onClose }) {
             </div>
 
             {/* Reported by */}
-            <div>
-              <h3 className="text-sm font-medium text-gray-700 mb-1.5">Reported by</h3>
-              <p className="text-sm text-gray-600 leading-relaxed">
-                {report.reporter_name
-                  ? `${report.reporter_name}${report.reporter_roll_no ? ` (${report.reporter_roll_no})` : ''}`
-                  : 'Anonymous'}
-              </p>
-            </div>
+            {showReportedBy && (
+              <div>
+                <h3 className="text-sm font-medium text-gray-700 mb-1.5">Reported by</h3>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  {report.reporter_name
+                    ? `${report.reporter_name}${report.reporter_roll_no ? ` (${report.reporter_roll_no})` : ''}`
+                    : 'Anonymous'}
+                </p>
+              </div>
+            )}
 
             {/* Handover note */}
             {report.report_kind === 'found' && report.handover_note && (

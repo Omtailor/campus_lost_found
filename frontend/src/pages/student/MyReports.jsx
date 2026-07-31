@@ -174,6 +174,7 @@ function MyReports() {
         report={selectedReport}
         isOpen={!!selectedReport}
         onClose={() => setSelectedReport(null)}
+        showReportedBy={false}
       />
     </StudentLayout>
   )
