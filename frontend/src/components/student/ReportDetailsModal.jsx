@@ -2,15 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 import { FiX, FiCopy, FiCheck } from 'react-icons/fi'
 import GlassCard from '../ui/GlassCard.jsx'
 import StatusPill from '../ui/StatusPill.jsx'
+import ItemImage from '../common/ItemImage.jsx'
 import ImageLightbox from './ImageLightbox.jsx'
-
-const API_BASE = import.meta.env.VITE_API_URL.replace(/\/+$/, '')
-
-function buildImageUrl(imageUrl) {
-  if (!imageUrl) return null
-  if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) return imageUrl
-  return `${API_BASE}${imageUrl}`
-}
 
 function capitalize(str) {
   if (!str) return ''
@@ -79,7 +72,6 @@ function ReportDetailsModal({ report, isOpen, onClose, showReportedBy = true }) 
 
   if (!isOpen || !report) return null
 
-  const imgSrc = buildImageUrl(report.image_url)
   const displayTitle = capitalize(report.category)
   const displayKind = report.report_kind === 'found' ? 'Found' : 'Lost'
 
@@ -120,18 +112,14 @@ function ReportDetailsModal({ report, isOpen, onClose, showReportedBy = true }) 
           </button>
 
           {/* Image */}
-          <div
-            className="h-56 bg-background-start flex items-center justify-center overflow-hidden cursor-pointer"
-            onClick={() => imgSrc && setLightboxOpen(true)}
-          >
-            {imgSrc ? (
-              <img src={imgSrc} alt={displayTitle} className="w-full h-full object-cover" />
-            ) : (
-              <div className="flex items-center justify-center w-full h-full">
-                <span className="text-base font-medium text-gray-400">{displayKind}</span>
-              </div>
-            )}
-          </div>
+          <ItemImage
+            imageUrl={report.image_url}
+            alt={displayTitle}
+            category={report.category}
+            className="h-56 w-full"
+            imgClassName="w-full h-full object-cover cursor-pointer"
+            onClick={() => setLightboxOpen(true)}
+          />
 
           {/* Content */}
           <div className="p-6 space-y-4">

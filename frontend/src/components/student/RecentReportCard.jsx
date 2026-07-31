@@ -1,14 +1,7 @@
 import { FiArrowRight } from 'react-icons/fi'
 import GlassCard from '../ui/GlassCard.jsx'
 import StatusPill from '../ui/StatusPill.jsx'
-
-const API_BASE = import.meta.env.VITE_API_URL.replace(/\/+$/, '')
-
-function buildImageUrl(imageUrl) {
-  if (!imageUrl) return null
-  if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) return imageUrl
-  return `${API_BASE}${imageUrl}`
-}
+import ItemImage from '../common/ItemImage.jsx'
 
 function capitalize(str) {
   if (!str) return ''
@@ -33,19 +26,17 @@ function getRelativeTime(dateStr) {
 }
 
 function RecentReportCard({ unique_code, category, report_kind, status, created_at, image_url, handover_note, onClick }) {
-  const imgSrc = buildImageUrl(image_url)
   const displayTitle = capitalize(category)
-  const displayKind = report_kind === 'found' ? 'Found' : 'Lost'
 
   return (
     <GlassCard className="flex-shrink-0 flex items-center gap-3 p-3 w-56 cursor-pointer" onClick={onClick}>
-      <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-background-start flex items-center justify-center">
-        {imgSrc ? (
-          <img src={imgSrc} alt={displayTitle} className="w-full h-full object-cover" />
-        ) : (
-          <span className="text-[10px] text-gray-400 font-medium">{displayKind}</span>
-        )}
-      </div>
+      <ItemImage
+        imageUrl={image_url}
+        alt={displayTitle}
+        category={category}
+        className="w-12 h-12 rounded-lg flex-shrink-0"
+        compact
+      />
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-1 mb-1">
           <StatusPill status={status} />

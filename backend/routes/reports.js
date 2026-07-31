@@ -28,7 +28,7 @@ router.post('/', authenticate, upload.single('image'), async (req, res) => {
       return res.status(400).json({ error: 'Image is required for lost item reports' });
     }
 
-    const image_url = req.file ? req.file.filename : null;
+    const image_url = req.file ? `/uploads/${req.file.filename}` : null;
 
     let handover_note = null;
     if (report_kind === 'found') {

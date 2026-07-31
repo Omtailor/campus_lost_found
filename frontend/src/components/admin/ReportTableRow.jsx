@@ -2,16 +2,9 @@ import { useState, memo } from 'react'
 import { FiCheck } from 'react-icons/fi'
 import StatusPill from '../ui/StatusPill.jsx'
 import ImageLightbox from '../student/ImageLightbox.jsx'
+import ItemImage from '../common/ItemImage.jsx'
 import Button from '../ui/Button.jsx'
 import ResolveDialog from './ResolveDialog.jsx'
-
-const API_BASE = import.meta.env.VITE_API_URL.replace(/\/+$/, '')
-
-function buildImageUrl(imageUrl) {
-  if (!imageUrl) return null
-  if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) return imageUrl
-  return `${API_BASE}${imageUrl}`
-}
 
 function capitalize(str) {
   if (!str) return ''
@@ -32,7 +25,6 @@ const ReportTableRow = memo(function ReportTableRow({ report, onResolve }) {
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
   const [resolving, setResolving] = useState(false)
-  const imgSrc = buildImageUrl(report.image_url)
   const displayKind = report.report_kind === 'found' ? 'Found' : 'Lost'
 
   async function handleConfirm() {
@@ -49,16 +41,15 @@ const ReportTableRow = memo(function ReportTableRow({ report, onResolve }) {
       <tr className="border-b border-gray-100 hover:bg-white/50 transition-colors">
         {/* Photo */}
         <td className="px-3 py-3">
-          <div
-            className="w-12 h-12 rounded-lg overflow-hidden bg-background-start flex items-center justify-center cursor-pointer"
-            onClick={() => imgSrc && setLightboxOpen(true)}
-          >
-            {imgSrc ? (
-              <img src={imgSrc} alt={report.unique_code} className="w-full h-full object-cover" />
-            ) : (
-              <span className="text-[10px] text-gray-400 font-medium">{displayKind}</span>
-            )}
-          </div>
+          <ItemImage
+            imageUrl={report.image_url}
+            alt={report.unique_code}
+            category={report.category}
+            className="w-12 h-12 rounded-lg"
+            imgClassName="w-full h-full object-cover rounded-lg cursor-pointer"
+            compact
+            onClick={() => setLightboxOpen(true)}
+          />
         </td>
 
         {/* Unique ID */}

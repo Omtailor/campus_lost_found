@@ -1,15 +1,10 @@
-import { useEffect } from 'react'
-import { FiX } from 'react-icons/fi'
-
-const API_BASE = import.meta.env.VITE_API_URL.replace(/\/+$/, '')
-
-function buildImageUrl(imageUrl) {
-  if (!imageUrl) return null
-  if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) return imageUrl
-  return `${API_BASE}${imageUrl}`
-}
+import { useState, useEffect } from 'react'
+import { FiX, FiImage } from 'react-icons/fi'
+import { buildImageUrl } from '../common/ItemImage.jsx'
 
 function ImageLightbox({ imageUrl, alt, onClose }) {
+  const [failedSrc, setFailedSrc] = useState(null)
+
   useEffect(() => {
     function handleEsc(e) {
       if (e.key === 'Escape') onClose()
@@ -36,15 +31,19 @@ function ImageLightbox({ imageUrl, alt, onClose }) {
       >
         <FiX size={22} />
       </button>
-      {fullUrl ? (
+      {fullUrl && failedSrc !== fullUrl ? (
         <img
           src={fullUrl}
           alt={alt || 'Report image'}
           className="max-w-[90vw] max-h-[90vh] object-contain rounded-lg"
           onClick={(e) => e.stopPropagation()}
+          onError={() => setFailedSrc(fullUrl)}
         />
       ) : (
-        <div className="text-white text-lg">No image available</div>
+        <div className="flex flex-col items-center gap-2 text-white">
+          <FiImage size={36} className="text-white/70" />
+          <span className="text-lg">No image available</span>
+        </div>
       )}
     </div>
   )
