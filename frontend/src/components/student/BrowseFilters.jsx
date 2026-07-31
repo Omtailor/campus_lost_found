@@ -1,20 +1,5 @@
 import Select from '../ui/Select.jsx'
-
-const CATEGORY_OPTIONS = [
-  { value: 'backpack', label: 'Backpack' },
-  { value: 'wallet', label: 'Wallet' },
-  { value: 'laptop', label: 'Laptop' },
-  { value: 'phone', label: 'Phone' },
-  { value: 'earbuds', label: 'Earbuds' },
-  { value: 'keys', label: 'Keys' },
-  { value: 'id-card', label: 'ID Card' },
-  { value: 'water-bottle', label: 'Water Bottle' },
-  { value: 'books', label: 'Books' },
-  { value: 'eyeglasses', label: 'Eyeglasses' },
-  { value: 'watch', label: 'Watch' },
-  { value: 'helmet', label: 'Helmet' },
-  { value: 'other', label: 'Other' },
-]
+import { REPORT_CATEGORIES } from '../../constants/reportCategories.js'
 
 function BrowseFilters({ typeFilter, categoryFilter, onTypeChange, onCategoryChange }) {
   return (
@@ -38,7 +23,7 @@ function BrowseFilters({ typeFilter, categoryFilter, onTypeChange, onCategoryCha
 
       <div className="w-48">
         <Select
-          options={[{ value: 'all', label: 'All Categories' }, ...CATEGORY_OPTIONS]}
+          options={[{ value: 'all', label: 'All Categories' }, ...REPORT_CATEGORIES]}
           value={categoryFilter}
           onChange={(e) => onCategoryChange(e.target.value)}
         />

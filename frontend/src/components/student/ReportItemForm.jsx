@@ -4,22 +4,7 @@ import GlassCard from '../ui/GlassCard.jsx'
 import Select from '../ui/Select.jsx'
 import Button from '../ui/Button.jsx'
 import { createReport } from '../../services/reportService.js'
-
-const CATEGORY_OPTIONS = [
-  { value: 'backpack', label: 'Backpack' },
-  { value: 'wallet', label: 'Wallet' },
-  { value: 'laptop', label: 'Laptop' },
-  { value: 'phone', label: 'Phone' },
-  { value: 'earbuds', label: 'Earbuds' },
-  { value: 'keys', label: 'Keys' },
-  { value: 'id-card', label: 'ID Card' },
-  { value: 'water-bottle', label: 'Water Bottle' },
-  { value: 'books', label: 'Books' },
-  { value: 'eyeglasses', label: 'Eyeglasses' },
-  { value: 'watch', label: 'Watch' },
-  { value: 'helmet', label: 'Helmet' },
-  { value: 'other', label: 'Other' },
-]
+import { REPORT_CATEGORIES } from '../../constants/reportCategories.js'
 
 const MAX_DESCRIPTION_LENGTH = 300
 
@@ -126,6 +111,11 @@ function ReportItemForm({ onSuccess }) {
     }
   }
 
+  function handleCategoryChange(e) {
+    setCategory(e.target.value)
+    setErrors((prev) => ({ ...prev, category: undefined }))
+  }
+
   function handleFileChange(e) {
     const file = e.target.files[0]
     if (file) {
@@ -196,10 +186,10 @@ function ReportItemForm({ onSuccess }) {
           <div>
             <Select
               label="Category"
-              options={[{ value: '', label: 'Select Category' }, ...CATEGORY_OPTIONS]}
+              options={[{ value: '', label: 'Select Category' }, ...REPORT_CATEGORIES]}
               value={category}
               disabled={submitting}
-              onChange={(e) => { setCategory(e.target.value); setErrors((p) => ({ ...p, category: undefined })) }}
+              onChange={handleCategoryChange}
               className={errors.category ? 'border-error' : ''}
             />
             {errors.category && (

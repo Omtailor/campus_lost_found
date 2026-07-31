@@ -92,11 +92,11 @@ router.get('/', authenticate, async (req, res) => {
     const params = [];
 
     if (status) {
-      conditions.push('status = ?');
+      conditions.push('r.status = ?');
       params.push(status);
     }
     if (report_kind) {
-      conditions.push('report_kind = ?');
+      conditions.push('r.report_kind = ?');
       params.push(report_kind);
     }
 
@@ -106,10 +106,13 @@ router.get('/', authenticate, async (req, res) => {
     const queryOffset = Math.max(parseInt(offset, 10) || 0, 0);
 
     const sql = `
-      SELECT unique_code, report_kind, category, description, image_url, handover_note, status, created_at
-      FROM reports
+      SELECT r.unique_code, r.report_kind, r.category, r.description, r.image_url,
+             r.handover_note, r.status, r.created_at,
+             u.name AS reporter_name, u.roll_no AS reporter_roll_no
+      FROM reports r
+      LEFT JOIN users u ON r.student_id = u.id
       ${whereClause}
-      ORDER BY created_at DESC
+      ORDER BY r.created_at DESC
       LIMIT ? OFFSET ?
     `;
 
