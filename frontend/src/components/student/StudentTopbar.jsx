@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { FiSearch, FiBell } from 'react-icons/fi'
+import { FiSearch } from 'react-icons/fi'
 import { useAuth } from '../../context/AuthContext.jsx'
 import UserMenu from '../common/UserMenu.jsx'
 
@@ -26,16 +26,7 @@ function StudentTopbar() {
         />
       </div>
 
-      <div className="flex items-center gap-5">
-        <button className="relative w-9 h-9 rounded-full bg-white/70 border border-gray-200 flex items-center justify-center text-gray-500 hover:text-primary hover:border-primary/30 transition-colors">
-          <FiBell size={18} />
-          <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-status-pending text-white text-[9px] font-bold flex items-center justify-center">
-            3
-          </span>
-        </button>
-
-        <UserMenu user={user} onLogout={handleLogout} />
-      </div>
+      <UserMenu user={user} onLogout={handleLogout} />
     </header>
   )
 }

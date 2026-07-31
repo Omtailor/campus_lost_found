@@ -3,7 +3,6 @@ import {
   FiGrid,
   FiSearch,
   FiFileText,
-  FiShield,
 } from 'react-icons/fi'
 
 const navItems = [
@@ -43,18 +42,6 @@ function StudentSidebar() {
           </NavLink>
         ))}
       </nav>
-
-      <div className="px-4 pb-6">
-        <div className="rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20 p-4">
-          <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center mb-2">
-            <FiShield size={16} className="text-primary" />
-          </div>
-          <h4 className="text-sm font-semibold text-gray-800 mb-1">Safety First</h4>
-          <p className="text-[11px] text-gray-500 leading-relaxed">
-            Found something? Report it here so we can help return it to its owner.
-          </p>
-        </div>
-      </div>
     </aside>
   )
 }
